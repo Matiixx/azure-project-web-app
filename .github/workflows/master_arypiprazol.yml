@@ -26,6 +26,9 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
+
+      - name: List build output
+        run: ls -R dist
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -52,5 +55,5 @@ jobs:
         with:
           app-name: 'Arypiprazol'
           slot-name: 'Production'
-          package: .
+          package: ./dist
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_444E56194F69475B95E5F14B54F4F83C }}
