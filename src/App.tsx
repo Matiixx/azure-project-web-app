@@ -1,32 +1,36 @@
-import { useState } from "react";
-
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { logOut } from "./utils";
 
+import Header from "./Header";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import BookItem from "./BookItem";
+
+type Book = {
+  BookID: number;
+  Title: string;
+  Author: string;
+  PublicationYear: number;
+  AddedBy: number;
+  AddedAt: string;
+};
+
 function App() {
-  const [count, setCount] = useState(0);
   const navigate = useNavigate();
 
-  const isLoggedIn = Cookies.get("token");
-
-  const x = useQuery({
+  const { data: books, isLoading } = useQuery({
     queryKey: ["books"],
     queryFn: async () => {
-      const response = await axios.get(
-        "https://inhibitorwychwytuzwrotnegoserotoniny.azurewebsites.net/"
+      const response = await axios.get<Book[]>(
+        `${import.meta.env.VITE_API_URL}/books`,
+        { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
       );
-      const data = await response.data;
-      return data;
+      return response.data;
     },
   });
-  console.log(x.data);
 
   const handleLogout = () => {
     logOut();
@@ -35,29 +39,24 @@ function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header handleLogout={handleLogout} />
 
-      {isLoggedIn && <button onClick={handleLogout}>Logout</button>}
-      {!isLoggedIn && <NavLink to="/login">Login</NavLink>}
+      <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col w-1/2 gap-2 my-4">
+          {isLoading && <div>Loading...</div>}
+
+          {books?.map((book) => {
+            return (
+              <BookItem
+                key={book.BookID}
+                author={book.Author}
+                title={book.Title}
+                publicationYear={book.PublicationYear}
+              />
+            );
+          })}
+        </div>
+      </div>
     </>
   );
 }

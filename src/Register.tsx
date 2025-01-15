@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -75,6 +76,9 @@ const Register: React.FC = () => {
         </div>
         <button type="submit">Register</button>
       </form>
+      <p>
+        Already have an account? <NavLink to="/login">Login</NavLink>
+      </p>
     </div>
   );
 };
