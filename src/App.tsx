@@ -16,6 +16,8 @@ type Book = {
   PublicationYear: number;
   AddedBy: number;
   AddedAt: string;
+  myRating?: number;
+  avgRating?: number;
 };
 
 function App() {
@@ -48,9 +50,12 @@ function App() {
           {books?.map((book) => {
             return (
               <BookItem
-                key={book.BookID}
-                author={book.Author}
+                key={`${book.BookID}-${book.myRating}`}
                 title={book.Title}
+                bookId={book.BookID}
+                author={book.Author}
+                myRating={book.myRating}
+                avgRating={book.avgRating}
                 publicationYear={book.PublicationYear}
               />
             );
