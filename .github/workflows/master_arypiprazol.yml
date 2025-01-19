@@ -9,9 +9,6 @@ on:
       - master
   workflow_dispatch:
 
-env:
-  VITE_API_URL: ${{ vars.VITE_API_URL }}
-
 jobs:
   build:
     runs-on: windows-latest
