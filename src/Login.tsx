@@ -13,10 +13,10 @@ const Login: React.FC = () => {
   const { mutateAsync: login } = useMutation({
     mutationKey: ["login"],
     mutationFn: async () => {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/login`,
-        { email, password }
-      );
+      const response = await axios.post(`${process.env.VITE_API_URL}/login`, {
+        email,
+        password,
+      });
       return response.data.token;
     },
   });

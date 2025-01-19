@@ -27,7 +27,7 @@ function App() {
     queryKey: ["books"],
     queryFn: async () => {
       const response = await axios.get<Book[]>(
-        `${import.meta.env.VITE_API_URL}/books`,
+        `${process.env.VITE_API_URL}/books`,
         { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
       );
       return response.data;

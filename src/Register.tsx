@@ -14,7 +14,7 @@ const Register: React.FC = () => {
   const { mutateAsync: register } = useMutation({
     mutationKey: ["register"],
     mutationFn: async () => {
-      return axios.post(`${import.meta.env.VITE_API_URL}/register`, {
+      return axios.post(`${process.env.VITE_API_URL}/register`, {
         email,
         password,
       });
