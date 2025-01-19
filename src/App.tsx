@@ -1,11 +1,11 @@
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 import "./App.css";
 import { logOut } from "./utils";
 
 import Header from "./Header";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import BookItem from "./BookItem";
 
@@ -22,7 +22,6 @@ type Book = {
 
 function App() {
   const navigate = useNavigate();
-  console.log(import.meta.env);
 
   const isLoggedIn = Cookies.get("token");
 
@@ -35,7 +34,7 @@ function App() {
       );
       return response.data;
     },
-    // enabled: !!isLoggedIn,
+    enabled: !!isLoggedIn,
   });
 
   const handleLogout = () => {
@@ -43,9 +42,9 @@ function App() {
     navigate("/login");
   };
 
-  // if (!isLoggedIn) {
-  //   navigate("/login");
-  // }
+  if (!isLoggedIn) {
+    navigate("/login");
+  }
 
   return (
     <>
