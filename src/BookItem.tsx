@@ -23,7 +23,7 @@ const BookItem: React.FC<BookItemProps> = ({
 }) => {
   const [hoverIdx, setHoverIdx] = useState(myRating ?? -1);
 
-  const { mutateAsync: rateBook } = useAddRating(bookId);
+  const { mutateAsync: rateBook } = useRating(bookId);
 
   const handleRate = (rating: number) => {
     return rateBook(rating);
@@ -47,7 +47,7 @@ const BookItem: React.FC<BookItemProps> = ({
                 onPointerOut={() => setHoverIdx(myRating ?? -1)}
                 onPointerOver={() => setHoverIdx(i + 1)}
                 className={classNames(
-                  "w-4 h-4 rounded-full",
+                  "w-4 h-4 rounded-full cursor-pointer",
                   hoverIdx !== -1 && hoverIdx - 1 >= i
                     ? "bg-yellow-400"
                     : "bg-gray-300"
@@ -55,19 +55,27 @@ const BookItem: React.FC<BookItemProps> = ({
               />
             ))}
           </div>
-          {avgRating ?? 0} / 5.0
+          <div>{(avgRating ?? 0).toFixed(2)} / 5.0</div>
+          {myRating && (
+            <span
+              className="text-gray-400 text-sm cursor-pointer underline"
+              onClick={() => handleRate(-1)}
+            >
+              Delete my rating
+            </span>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-const useAddRating = (bookId: number) => {
+const useRating = (bookId: number) => {
   const queryClient = useQueryClient();
 
   const mutationFn = async (rating: number) => {
     return axios.post(
-      `${import.meta.env.VITE_API_URL}/rating`,
+      `${process.env.VITE_API_URL}/rating`,
       { bookId, score: rating },
       { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
     );
