@@ -4,6 +4,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
+import Header from "./Header";
+import { logOut } from "./utils";
+
 const AddBook: React.FC = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -34,56 +37,64 @@ const AddBook: React.FC = () => {
     return addBook();
   };
 
+  const handleLogout = () => {
+    logOut();
+    navigate("/login");
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen gap-8">
-      <h1 className="text-2xl font-bold">Add New Book</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="flex gap-4 flex-col border p-6 rounded shadow-md w-96"
-      >
-        <div className="flex-1 w-full justify-between flex items-center">
-          <label className="font-medium">Title:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="border rounded p-1 w-64"
-          />
-        </div>
-
-        <div className="flex-1 w-full justify-between flex items-center">
-          <label className="font-medium">Author:</label>
-          <input
-            type="text"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            required
-            className="border rounded p-1 w-64"
-          />
-        </div>
-
-        <div className="flex-1 w-full justify-between flex items-center">
-          <label className="font-medium">Published Year:</label>
-          <input
-            type="number"
-            value={publishedYear}
-            onChange={(e) => setPublishedYear(e.target.value)}
-            required
-            className="border rounded p-1 w-64"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors mt-4"
+    <>
+      <Header handleLogout={handleLogout} />
+      <div className="flex pt-20 flex-col items-center justify-center  gap-8">
+        <h1 className="text-2xl font-bold">Add New Book</h1>
+        <form
+          onSubmit={handleSubmit}
+          className="flex gap-4 flex-col border p-6 rounded shadow-md w-96"
         >
-          Add Book
-        </button>
+          <div className="flex-1 w-full justify-between flex items-center">
+            <label className="font-medium">Title:</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              className="border rounded p-1 w-64"
+            />
+          </div>
 
-        {error && <p className="text-red-500">Failed to add book</p>}
-      </form>
-    </div>
+          <div className="flex-1 w-full justify-between flex items-center">
+            <label className="font-medium">Author:</label>
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              required
+              className="border rounded p-1 w-64"
+            />
+          </div>
+
+          <div className="flex-1 w-full justify-between flex items-center">
+            <label className="font-medium">Published Year:</label>
+            <input
+              type="number"
+              value={publishedYear}
+              onChange={(e) => setPublishedYear(e.target.value)}
+              required
+              className="border rounded p-1 w-64"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors mt-4"
+          >
+            Add Book
+          </button>
+
+          {error && <p className="text-red-500">Failed to add book</p>}
+        </form>
+      </div>
+    </>
   );
 };
 

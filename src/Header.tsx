@@ -9,7 +9,9 @@ const Header: React.FC<{
 
   return (
     <header className="bg-blue-600 p-4 flex justify-between items-center w-full">
-      <h1 className="text-white text-2xl">My Web App</h1>
+      <NavLink to="/">
+        <h1 className="text-white text-2xl">My Web App</h1>
+      </NavLink>
       <div>
         {isLoggedIn ? (
           <div className="flex flex-row gap-4">
@@ -18,6 +20,13 @@ const Header: React.FC<{
               className="bg-white text-black px-4 py-2 rounded"
             >
               Add books
+            </NavLink>
+
+            <NavLink
+              to="/my-books"
+              className="bg-white text-black px-4 py-2 rounded"
+            >
+              My books
             </NavLink>
 
             <button

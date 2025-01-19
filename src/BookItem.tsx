@@ -11,6 +11,7 @@ interface BookItemProps {
   myRating?: number;
   avgRating?: number;
   publicationYear: number;
+  onDelete?: () => void;
 }
 
 const BookItem: React.FC<BookItemProps> = ({
@@ -20,6 +21,7 @@ const BookItem: React.FC<BookItemProps> = ({
   myRating,
   avgRating,
   publicationYear,
+  onDelete,
 }) => {
   const [hoverIdx, setHoverIdx] = useState(myRating ?? -1);
 
@@ -38,32 +40,42 @@ const BookItem: React.FC<BookItemProps> = ({
           <p className="">{publicationYear}</p>
         </div>
 
-        <div className="flex flex-col gap-1 items-center">
-          <div className="flex flex-row gap-1">
-            {new Array(5).fill(0).map((_, i) => (
+        <div className="flex flex-row gap-1">
+          <div className="flex flex-col gap-1 items-center">
+            <div className="flex flex-row gap-1">
+              {new Array(5).fill(0).map((_, i) => (
+                <div
+                  key={i}
+                  onClick={() => handleRate(i + 1)}
+                  onPointerOut={() => setHoverIdx(myRating ?? -1)}
+                  onPointerOver={() => setHoverIdx(i + 1)}
+                  className={classNames(
+                    "w-4 h-4 rounded-full cursor-pointer",
+                    hoverIdx !== -1 && hoverIdx - 1 >= i
+                      ? "bg-yellow-400"
+                      : "bg-gray-300"
+                  )}
+                />
+              ))}
+            </div>
+            <div>{(avgRating ?? 0).toFixed(2)} / 5.0</div>
+            {myRating && (
+              <span
+                className="text-gray-400 text-sm cursor-pointer underline"
+                onClick={() => handleRate(-1)}
+              >
+                Delete my rating
+              </span>
+            )}
+            {onDelete && (
               <div
-                key={i}
-                onClick={() => handleRate(i + 1)}
-                onPointerOut={() => setHoverIdx(myRating ?? -1)}
-                onPointerOver={() => setHoverIdx(i + 1)}
-                className={classNames(
-                  "w-4 h-4 rounded-full cursor-pointer",
-                  hoverIdx !== -1 && hoverIdx - 1 >= i
-                    ? "bg-yellow-400"
-                    : "bg-gray-300"
-                )}
-              />
-            ))}
+                className="text-red-500 text-sm cursor-pointer underline"
+                onClick={onDelete}
+              >
+                Delete this book
+              </div>
+            )}
           </div>
-          <div>{(avgRating ?? 0).toFixed(2)} / 5.0</div>
-          {myRating && (
-            <span
-              className="text-gray-400 text-sm cursor-pointer underline"
-              onClick={() => handleRate(-1)}
-            >
-              Delete my rating
-            </span>
-          )}
         </div>
       </div>
     </div>

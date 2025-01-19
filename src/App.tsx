@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import "./App.css";
@@ -9,7 +9,7 @@ import Header from "./Header";
 import axios from "axios";
 import BookItem from "./BookItem";
 
-type Book = {
+export type Book = {
   BookID: number;
   Title: string;
   Author: string;
@@ -43,7 +43,7 @@ function App() {
   };
 
   if (!isLoggedIn) {
-    navigate("/login");
+    return <Navigate to="/login" replace />;
   }
 
   return (

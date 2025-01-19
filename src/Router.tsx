@@ -5,6 +5,7 @@ import App from "./App";
 import Login from "./Login";
 import Register from "./Register";
 import AddBook from "./AddBook";
+import MyBooks from "./MyBooks";
 
 const AppRouter: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const AppRouter: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/add-book" element={<AddBook />} />
+        <Route path="/my-books" element={<MyBooks />} />
       </Routes>
     </Router>
   );
