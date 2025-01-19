@@ -17,7 +17,7 @@ const AddBook: React.FC = () => {
     mutationKey: ["addBook"],
     mutationFn: async () => {
       const response = await axios.post(
-        `${process.env.VITE_API_URL}/book`,
+        `${import.meta.env.VITE_API_URL}/book`,
         { title, author, publishedYear: parseInt(publishedYear) },
         { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
       );

@@ -75,7 +75,7 @@ const useRating = (bookId: number) => {
 
   const mutationFn = async (rating: number) => {
     return axios.post(
-      `${process.env.VITE_API_URL}/rating`,
+      `${import.meta.env.VITE_API_URL}/rating`,
       { bookId, score: rating },
       { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
     );

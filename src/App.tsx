@@ -22,7 +22,7 @@ type Book = {
 
 function App() {
   const navigate = useNavigate();
-  console.log(process.env);
+  console.log(import.meta.env);
 
   const isLoggedIn = Cookies.get("token");
 
@@ -30,7 +30,7 @@ function App() {
     queryKey: ["books"],
     queryFn: async () => {
       const response = await axios.get<Book[]>(
-        `${process.env.VITE_API_URL}/books`,
+        `${import.meta.env.VITE_API_URL}/books`,
         { headers: { Authorization: `Bearer ${isLoggedIn}` } }
       );
       return response.data;
