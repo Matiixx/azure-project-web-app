@@ -28,7 +28,6 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-          echo "VITE_API_URL: ${{ secrets.VITE_API_URL }} ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_444E56194F69475B95E5F14B54F4F83C }}"
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
