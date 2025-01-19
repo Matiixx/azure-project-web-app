@@ -22,22 +22,30 @@ type Book = {
 
 function App() {
   const navigate = useNavigate();
+  console.log(process.env);
+
+  const isLoggedIn = Cookies.get("token");
 
   const { data: books, isLoading } = useQuery({
     queryKey: ["books"],
     queryFn: async () => {
       const response = await axios.get<Book[]>(
         `${process.env.VITE_API_URL}/books`,
-        { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
+        { headers: { Authorization: `Bearer ${isLoggedIn}` } }
       );
       return response.data;
     },
+    // enabled: !!isLoggedIn,
   });
 
   const handleLogout = () => {
     logOut();
     navigate("/login");
   };
+
+  // if (!isLoggedIn) {
+  //   navigate("/login");
+  // }
 
   return (
     <>
